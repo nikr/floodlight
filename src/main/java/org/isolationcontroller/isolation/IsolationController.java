@@ -1,11 +1,10 @@
 /**
- * 
+ *
  */
 package org.isolationcontroller.isolation;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
@@ -17,8 +16,6 @@ import net.floodlightcontroller.core.module.FloodlightModuleContext;
 import net.floodlightcontroller.core.module.FloodlightModuleException;
 import net.floodlightcontroller.core.module.IFloodlightModule;
 import net.floodlightcontroller.core.module.IFloodlightService;
-import net.floodlightcontroller.packet.Ethernet;
-import net.floodlightcontroller.packetstreamer.thrift.OFMessageType;
 
 import org.openflow.protocol.OFFlowMod;
 import org.openflow.protocol.OFMatch;
@@ -27,14 +24,12 @@ import org.openflow.protocol.OFPacketIn;
 import org.openflow.protocol.OFType;
 import org.openflow.protocol.Wildcards;
 import org.openflow.protocol.Wildcards.Flag;
-import org.openflow.protocol.action.OFActionOutput;
-import org.openflow.util.HexString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author sand
- * 
+ *
  */
 public class IsolationController implements IOFMessageListener,
 		IFloodlightModule
@@ -45,7 +40,7 @@ public class IsolationController implements IOFMessageListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see net.floodlightcontroller.core.IListener#getName()
 	 */
 	@Override
@@ -56,7 +51,7 @@ public class IsolationController implements IOFMessageListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * net.floodlightcontroller.core.IListener#isCallbackOrderingPrereq(java
 	 * .lang.Object, java.lang.String)
@@ -70,7 +65,7 @@ public class IsolationController implements IOFMessageListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * net.floodlightcontroller.core.IListener#isCallbackOrderingPostreq(java
 	 * .lang.Object, java.lang.String)
@@ -84,7 +79,7 @@ public class IsolationController implements IOFMessageListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * net.floodlightcontroller.core.module.IFloodlightModule#getModuleServices
 	 * ()
@@ -98,13 +93,12 @@ public class IsolationController implements IOFMessageListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * net.floodlightcontroller.core.module.IFloodlightModule#getServiceImpls()
 	 */
 	@Override
-	public Map<Class<? extends IFloodlightService>, IFloodlightService>
-			getServiceImpls()
+	public Map<Class<? extends IFloodlightService>, IFloodlightService> getServiceImpls()
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -112,17 +106,15 @@ public class IsolationController implements IOFMessageListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * net.floodlightcontroller.core.module.IFloodlightModule#getModuleDependencies
 	 * ()
 	 */
 	@Override
-	public Collection<Class<? extends IFloodlightService>>
-			getModuleDependencies()
+	public Collection<Class<? extends IFloodlightService>> getModuleDependencies()
 	{
-		Collection<Class<? extends IFloodlightService>> deps =
-				new ArrayList<Class<? extends IFloodlightService>>();
+		Collection<Class<? extends IFloodlightService>> deps = new ArrayList<Class<? extends IFloodlightService>>();
 		// IfloodlightProviderService is for listening to OF messages.
 		deps.add(IFloodlightProviderService.class);
 		return deps;
@@ -130,7 +122,7 @@ public class IsolationController implements IOFMessageListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see net.floodlightcontroller.core.module.IFloodlightModule#init(net.
 	 * floodlightcontroller.core.module.FloodlightModuleContext)
 	 */
@@ -138,15 +130,15 @@ public class IsolationController implements IOFMessageListener,
 	public void init(FloodlightModuleContext context)
 			throws FloodlightModuleException
 	{
-		floodlightProvider =
-				context.getServiceImpl(IFloodlightProviderService.class);
+		floodlightProvider = context
+				.getServiceImpl(IFloodlightProviderService.class);
 		logger = LoggerFactory.getLogger(IsolationController.class);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see net.floodlightcontroller.core.module.IFloodlightModule#startUp(net.
 	 * floodlightcontroller.core.module.FloodlightModuleContext)
 	 */
@@ -161,19 +153,16 @@ public class IsolationController implements IOFMessageListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see net.floodlightcontroller.core.IOFMessageListener#receive(net.
 	 * floodlightcontroller.core.IOFSwitch, org.openflow.protocol.OFMessage,
 	 * net.floodlightcontroller.core.FloodlightContext)
 	 */
 	@Override
-	public net.floodlightcontroller.core.IListener.Command receive(
-			IOFSwitch sw, OFMessage msg, FloodlightContext cntx)
+	public Command receive(IOFSwitch sw, OFMessage msg, FloodlightContext cntx)
 	{
-
-		Ethernet eth =
-				IFloodlightProviderService.bcStore.get(cntx,
-						IFloodlightProviderService.CONTEXT_PI_PAYLOAD);
+//		Ethernet eth = IFloodlightProviderService.bcStore.get(cntx,
+//				IFloodlightProviderService.CONTEXT_PI_PAYLOAD);
 		// byte[] b = OFMessage.getData(sw, msg, cntx);
 
 		// if it's a PACKET_IN message we can check the incoming port.
@@ -200,7 +189,7 @@ public class IsolationController implements IOFMessageListener,
 
 	/**
 	 * Adds a drop flow for the port that this packet came in on.
-	 * 
+	 *
 	 * @param sw
 	 * @param pktIn
 	 * @param cntxt
@@ -214,12 +203,10 @@ public class IsolationController implements IOFMessageListener,
 		{
 			logger.info("Dropping packet from port " + sw.getStringId() + "/"
 					+ port);
-			OFFlowMod flow =
-					(OFFlowMod) floodlightProvider.getOFMessageFactory()
-							.getMessage(OFType.FLOW_MOD);
-			OFMatch m =
-					new OFMatch().setWildcards(Wildcards.FULL
-							.matchOn(Flag.IN_PORT));
+			OFFlowMod flow = (OFFlowMod) floodlightProvider
+					.getOFMessageFactory().getMessage(OFType.FLOW_MOD);
+			OFMatch m = new OFMatch().setWildcards(Wildcards.FULL
+					.matchOn(Flag.IN_PORT));
 			m.setInputPort(port);
 			flow.setMatch(m);
 			flow.setCommand(OFFlowMod.OFPFC_ADD);
@@ -232,8 +219,7 @@ public class IsolationController implements IOFMessageListener,
 			{
 				logger.info("Writing flowmod: " + flow.toString());
 				sw.write(flow, cntxt);
-			}
-			catch (IOException e)
+			} catch (IOException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
